@@ -1,4 +1,4 @@
-(ns mrsudoku.engine
+(ns mrsudoku.solver
   (:use midje.sweet)
   (:require [mrsudoku.grid :as g]
             [mrsudoku.engine :as e]
