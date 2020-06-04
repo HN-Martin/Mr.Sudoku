@@ -2,6 +2,7 @@
 (ns mrsudoku.view
   (:require
    [mrsudoku.grid :as g]
+   [mrsudoku.solver :as s]
    [seesaw.core :refer [frame label text config! grid-panel
                         horizontal-panel vertical-panel button separator]]
    [seesaw.border :refer [line-border]]))
@@ -70,8 +71,10 @@
                                                       :columns 1
                                                       :vgap 20
                                                       :items [(button :text "Load")
-                                                              (button :text "Solve")
-                                                              (button :text "Quit")])
+                                                              (button :text "Solve"
+                                                                      :listen [:action (fn [event] (s/solve grid)) ])
+                                                              (button :text "Quit"
+                                                                      :listen [:action (fn [event] (System/exit 0))])])
                                                      :fill-v])
                                             [:fill-h 32]])
                           :minimum-size [540 :by 380]
@@ -84,7 +87,7 @@
   (case (:status cell)
     :conflict (config! cell-widget :background conflict-color) 
     (:set :init :empty) (config! cell-widget :background default-color)
-    :solved (config! cell-widget :backround solved-color :editable? false)
+    :solved (config! cell-widget :background solved-color :editable? false)
     (throw (ex-info "Cannot update cell widget." {:cell cell :cell-widget cell-widget}))))
 
 
