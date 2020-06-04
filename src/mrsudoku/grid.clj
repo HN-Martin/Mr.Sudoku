@@ -10,9 +10,10 @@
   ([st v] {:status st, :value v}))
 
 (defn cell-value [cell]
-  (case (:status cell)
-    (:init :set :solved :conflict) (:value cell)
-    nil))
+  (let [v (get cell :value)]
+    (if (= (type v) (type 1))
+      v
+      nil)))
 
 (fact
  (cell-value {:status :init, :value 5}) => 5)
